@@ -229,22 +229,24 @@ void AShooterProjectile::ExplosionCheck(const FVector& ExplosionCenter)
 
 void AShooterProjectile::ProcessHit(AActor* HitActor, UPrimitiveComponent* HitComp, const FVector& HitLocation, const FVector& HitDirection)
 {
-	// have we hit a character?
-	if (ACharacter* HitCharacter = Cast<ACharacter>(HitActor))
+	// Check if we should damage this actor
+	if (HitActor && (HitActor != GetOwner() || bDamageOwner))
 	{
-		// ignore the owner of this projectile
-		if (HitCharacter != GetOwner() || bDamageOwner)
-		{
-			// apply damage to the character with the configured damage type
-			UGameplayStatics::ApplyDamage(HitCharacter, HitDamage, GetInstigator()->GetController(), this, HitDamageType);
-		}
+		// Apply damage to the hit actor with the configured damage type
+		// This works for any AActor, including ACharacter, AEmotionReactActor, etc.
+		UGameplayStatics::ApplyDamage(HitActor, HitDamage, GetInstigator()->GetController(), this, HitDamageType);
+		
+		// Log damage application for debugging
+		UE_LOG(LogTemp, Log, TEXT("Projectile dealt %.1f damage to %s"), HitDamage, *HitActor->GetName());
 	}
 
-	// have we hit a physics object?
-	if (HitComp->IsSimulatingPhysics())
+	// Apply physics impulse to physics objects
+	if (HitComp && HitComp->IsSimulatingPhysics())
 	{
-		// give some physics impulse to the object
+		// Give some physics impulse to the object
 		HitComp->AddImpulseAtLocation(HitDirection * PhysicsForce, HitLocation);
+		
+		UE_LOG(LogTemp, Verbose, TEXT("Applied physics impulse to %s"), HitComp ? *HitComp->GetName() : TEXT("Unknown"));
 	}
 }
 
