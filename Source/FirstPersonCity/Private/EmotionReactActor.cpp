@@ -49,6 +49,9 @@ float AEmotionReactActor::TakeDamage(float Damage, struct FDamageEvent const& Da
 	// Check damage type and apply visual effects
 	if (DamageEvent.DamageTypeClass)
 	{
+
+	BP_OnProjectileHit(DamageEvent.DamageTypeClass);
+
 		if (DamageEvent.DamageTypeClass->IsChildOf<UFireDamageType>())
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Fire damage detected!"));

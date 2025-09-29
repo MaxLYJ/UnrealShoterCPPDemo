@@ -29,6 +29,11 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UStaticMeshComponent* MeshComponent;
 
+	/** Passes control to Blueprint to implement any effects on hit. */
+	UFUNCTION(BlueprintImplementableEvent, Category="Projectile", meta = (DisplayName = "On Projectile Hit"))
+	void BP_OnProjectileHit(TSubclassOf<UDamageType> DamageTypeClass);
+
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
