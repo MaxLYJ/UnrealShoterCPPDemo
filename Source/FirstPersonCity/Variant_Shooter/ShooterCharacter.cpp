@@ -181,7 +181,17 @@ void AShooterCharacter::AddWeaponClass(const TSubclassOf<AShooterWeapon>& Weapon
 	// do we already own this weapon?
 	AShooterWeapon* OwnedWeapon = FindWeaponOfType(WeaponClass);
 
-	if (!OwnedWeapon)
+	if (OwnedWeapon)
+	{
+		if(CurrentWeapon)
+		{
+			CurrentWeapon->DeactivateWeapon();
+		}
+
+		CurrentWeapon = OwnedWeapon;
+		CurrentWeapon->ActivateWeapon();
+	}
+	else
 	{
 		// spawn the new weapon
 		FActorSpawnParameters SpawnParams;
