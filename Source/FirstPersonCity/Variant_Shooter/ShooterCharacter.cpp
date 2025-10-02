@@ -85,9 +85,21 @@ float AShooterCharacter::TakeDamage(float Damage, struct FDamageEvent const& Dam
 void AShooterCharacter::DoStartFiring()
 {
 	// fire the current weapon
+
+
 	if (CurrentWeapon)
 	{
+		if(bSingleShotMode)
+		{
+			CurrentWeapon->StartFiring();
+			DoDeactivateWeapon();
+
+		}
+		else
+		{
 		CurrentWeapon->StartFiring();
+
+		}
 	}
 }
 
@@ -127,6 +139,15 @@ void AShooterCharacter::DoSwitchWeapon()
 
 		// activate the new weapon
 		CurrentWeapon->ActivateWeapon();
+	}
+}
+
+void AShooterCharacter::DoDeactivateWeapon()
+{
+
+	if(CurrentWeapon && IsValid(CurrentWeapon))
+	{
+		CurrentWeapon->DeactivateWeapon();
 	}
 }
 

@@ -71,6 +71,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category ="Destruction", meta = (ClampMin = 0, ClampMax = 10, Units = "s"))
 	float RespawnTime = 5.0f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Weapons")
+	bool bSingleShotMode = false;
+
 	FTimerHandle RespawnTimer;
 
 public:
@@ -116,6 +119,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Input")
 	void DoSwitchWeapon();
 
+	UFUNCTION(BlueprintCallable, Category="Weapons")
+	void DoDeactivateWeapon();
+
 public:
 
 	//~Begin IShooterWeaponHolder interface
@@ -143,6 +149,7 @@ public:
 	virtual void OnWeaponActivated(AShooterWeapon* Weapon) override;
 
 	/** Deactivates the passed weapon */
+	UFUNCTION(BlueprintCallable, Category="Weapons")
 	virtual void OnWeaponDeactivated(AShooterWeapon* Weapon) override;
 
 	/** Notifies the owner that the weapon cooldown has expired and it's ready to shoot again */

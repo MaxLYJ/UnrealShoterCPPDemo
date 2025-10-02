@@ -91,6 +91,9 @@ protected:
 	/** If true, the weapon is currently firing */
 	bool bIsFiring = false;
 
+	/** If true, the weapon is active and can be fired */
+	bool bIsActive = false;
+
 	/** Timer to handle full auto refiring */
 	FTimerHandle RefireTimer;
 
@@ -141,6 +144,9 @@ public:
 
 	/** Stop firing this weapon */
 	void StopFiring();
+
+	/** Returns true if the weapon is currently active */
+	bool IsActive() const { return bIsActive; }
 
 protected:
 

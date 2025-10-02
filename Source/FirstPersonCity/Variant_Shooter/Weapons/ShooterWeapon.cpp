@@ -70,6 +70,9 @@ void AShooterWeapon::OnOwnerDestroyed(AActor* DestroyedActor)
 
 void AShooterWeapon::ActivateWeapon()
 {
+	// set the weapon as active
+	bIsActive = true;
+
 	// unhide this weapon
 	SetActorHiddenInGame(false);
 
@@ -82,6 +85,9 @@ void AShooterWeapon::DeactivateWeapon()
 	// ensure we're no longer firing this weapon while deactivated
 	StopFiring();
 
+	// set the weapon as inactive
+	bIsActive = false;
+
 	// hide the weapon
 	SetActorHiddenInGame(true);
 
@@ -91,6 +97,12 @@ void AShooterWeapon::DeactivateWeapon()
 
 void AShooterWeapon::StartFiring()
 {
+	// check if the weapon is active before allowing firing
+	if (!bIsActive)
+	{
+		return;
+	}
+
 	// raise the firing flag
 	bIsFiring = true;
 
@@ -125,8 +137,8 @@ void AShooterWeapon::StopFiring()
 
 void AShooterWeapon::Fire()
 {
-	// ensure the player still wants to fire. They may have let go of the trigger
-	if (!bIsFiring)
+	// ensure the player still wants to fire and the weapon is active
+	if (!bIsFiring || !bIsActive)
 	{
 		return;
 	}

@@ -38,14 +38,14 @@ float AEmotionReactActor::TakeDamage(float Damage, struct FDamageEvent const& Da
 
 	// Log the damage received
 	UE_LOG(LogTemp, Warning, TEXT("%s received %.1f damage"), *GetName(), ActualDamage);
-
+	/*
 	// Display on screen for debugging
 	if (GEngine)
 	{
 		FString DamageMessage = FString::Printf(TEXT("%s took %.1f damage!"), *GetName(), ActualDamage);
 		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, DamageMessage);
 	}
-
+	*/
 	// Check damage type and apply visual effects
 	if (DamageEvent.DamageTypeClass)
 	{
